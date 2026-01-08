@@ -2,113 +2,108 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para mi Reina</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --rojo-realista: #b30000; --dorado: #ffd700; }
-        body { 
-            margin: 0; display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; background-color: #4a0e0e; font-family: 'Poppins', sans-serif; 
+        :root { --rojo: #8b0000; --blanco: #ffffff; --dorado: #ffd700; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100dvh; background-color: var(--rojo); font-family: 'Poppins', sans-serif; overflow: hidden; }
+
+        /* Pantalla de inicio necesaria para iPhone/Android */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--rojo); z-index: 100; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            color: white; text-align: center;
         }
-        .container { position: relative; width: 320px; height: 480px; }
-        .card {
-            position: absolute; width: 100%; height: 100%; background: #fffafa;
-            border-radius: 15px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; transition: all 0.8s ease; border: 1px solid rgba(0,0,0,0.1);
+
+        .btn-start { 
+            padding: 15px 40px; font-size: 1.2rem; background: var(--blanco); 
+            color: var(--rojo); border: none; border-radius: 50px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        .hidden { transform: translateY(-120vh); opacity: 0; pointer-events: none; }
-        h1 { font-size: 1.6rem; color: #333; }
-        .cursive { font-family: 'Dancing Script', cursive; font-size: 1.4rem; }
+
+        .container { position: relative; width: 90%; max-width: 340px; height: 80vh; display: none; }
+        .card { position: absolute; width: 100%; height: 100%; background: var(--blanco); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: 0.6s; border: 4px solid #f8f8f8; }
+        .hidden { transform: scale(0.5) translateY(120%); opacity: 0; pointer-events: none; }
         
-        /* Botones y Flechas */
-        .btn-group { margin-top: 25px; display: flex; gap: 15px; }
-        .btn { padding: 10px 25px; border: none; border-radius: 25px; cursor: pointer; color: white; font-weight: bold; }
-        .btn-si { background: #4caf50; }
-        .btn-no { background: #e53935; transition: 0.2s; }
-        .nav-arrow { position: absolute; bottom: 25px; right: 25px; width: 35px; cursor: pointer; }
+        .arrow-btn { position: absolute; bottom: 20px; right: 20px; font-size: 3rem; cursor: pointer; color: #b71c1c; }
+        .btn-group { margin-top: 20px; display: flex; gap: 15px; }
+        .btn { padding: 12px 25px; border: none; border-radius: 50px; color: white; font-weight: bold; }
+        .btn-si { background: #2e7d32; }
+        .btn-no { background: #c62828; }
 
-        /* --- REGALO HECHO CON CÓDIGO (No se rompe) --- */
-        .gift-container { position: relative; width: 150px; height: 150px; margin-top: 50px; cursor: pointer; }
-        
-        /* Base de la caja */
-        .gift-box { 
-            position: absolute; bottom: 0; width: 100%; height: 100px; 
-            background: var(--rojo-realista); border-radius: 5px; z-index: 2;
-        }
-        .gift-box::before { /* Cinta vertical */
-            content: ""; position: absolute; left: 50%; transform: translateX(-50%);
-            width: 30px; height: 100%; background: var(--dorado);
-        }
-
-        /* Tapa de la caja */
-        .gift-lid { 
-            position: absolute; top: 15px; width: 110%; left: -5%; height: 40px; 
-            background: var(--rojo-realista); border-radius: 5px; z-index: 4;
-            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-        }
-        .gift-lid::before { /* Moño */
-            content: "🎀"; position: absolute; top: -35px; left: 50%; 
-            transform: translateX(-50%); font-size: 50px;
-        }
-
-        /* Foto sorpresa */
-        .photo-surprise {
-            position: absolute; width: 120px; height: 120px; left: 15px; bottom: 20px;
-            z-index: 3; opacity: 0; transform: scale(0.1);
-            transition: all 0.8s ease; border: 5px solid white; object-fit: cover;
-        }
-
-        /* Animación abrir */
-        .open .gift-lid { transform: translateY(-100px) rotate(-15deg); opacity: 0; }
-        .open .photo-surprise { opacity: 1; transform: scale(1.6) translateY(-60px); }
+        .gift-container { position: relative; width: 140px; height: 140px; margin-top: 20px; }
+        .gift-box { position: absolute; bottom: 0; width: 100%; height: 90px; background: #d32f2f; border-radius: 8px; z-index: 2; }
+        .gift-lid { position: absolute; top: 20px; width: 110%; left: -5%; height: 30px; background: #d32f2f; z-index: 4; transition: 0.5s; }
+        .photo-surprise { position: absolute; width: 110px; height: 110px; left: 15px; bottom: 20px; z-index: 3; opacity: 0; transform: scale(0.1); transition: 0.8s; border: 4px solid white; object-fit: cover; }
+        .open .gift-lid { transform: translateY(-100px) rotate(15deg); opacity: 0; }
+        .open .photo-surprise { opacity: 1; transform: scale(1.8) translateY(-50px); }
     </style>
 </head>
 <body>
 
-    <audio id="musica" loop>
-        <source src="tu-musica.mp3" type="audio/mpeg">
+    <div id="overlay">
+        <h2 style="margin-bottom: 20px;">Toca para abrir tu sorpresa</h2>
+        <button class="btn-start" onclick="activarTodo()">EMPEZAR ❤️</button>
+    </div>
+
+    <audio id="musicaFondo" loop preload="auto">
+        <source src="musica.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div id="p1" class="card">
-            <h1>Buenos días, mi reina</h1>
-            <p>Sé que existen mil maneras de decir “te amo”, pero ninguna alcanza para expresar la inmensidad de lo que siento por ti. Mi amor por ti no cabe en palabras, porque vive en cada latido, en cada pensamiento y en cada instante en el que tu nombre aparece sin que lo llame. Amarte es mi forma más sincera de existir</p>
-            <img src="https://cdn-icons-png.flaticon.com/512/545/545682.png" class="nav-arrow" onclick="pasar('p1','p2')">
+            <h1>Para mi reina</h1>
+            <p>Sé que existen mil maneras de decir “te amo”, pero ninguna logra abarcar lo que siento por ti. ❤️</p>
+            <div class="arrow-btn" onclick="next('p1','p2')">➞</div>
         </div>
 
         <div id="p2" class="card hidden">
-            <p class="cursive">Mi vida, ¿quieres ser mi San Valentín?</p>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem;">¿Quieres ser mi San Valentín?</p>
             <div class="btn-group">
-                <button class="btn btn-si" onclick="pasar('p2','p3')">SI</button>
-                <button class="btn btn-no" onmouseover="escapar(this)">NO</button>
+                <button class="btn btn-si" onclick="next('p2','p3')">SÍ</button>
+                <button id="btnNo" class="btn btn-no" onmouseover="escapar(this)" onclick="escapar(this)">NO</button>
             </div>
         </div>
 
         <div id="p3" class="card hidden">
-            <p class="cursive">espero te guste esta sorpresa</p>
-            <div class="gift-container" id="regalo" onclick="this.classList.toggle('open')">
+            <div class="gift-container" onclick="this.classList.toggle('open')">
                 <div class="gift-lid"></div>
                 <div class="gift-box"></div>
-                <img src="https://i.imgur.com/G1Mh8e6.jpg" class="photo-surprise">
+                <img src="foto.jpeg" class="photo-surprise">
             </div>
-            <p style="font-size: 0.7rem; color: #888; margin-top: 20px;">(Toca el regalo para abrirlo)</p>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 40px;">(Abre tu regalo)</p>
         </div>
     </div>
 
     <script>
-        const audio = document.getElementById('musica');
-        function pasar(actual, sig) {
-            audio.play().catch(() => {});
+        const audio = document.getElementById('musicaFondo');
+
+        function activarTodo() {
+            // Intento forzado de reproducción
+            audio.play().then(() => {
+                console.log("Reproduciendo...");
+            }).catch(err => {
+                console.log("El audio falló pero lo intentaremos de nuevo al navegar");
+            });
+
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+        }
+
+        function next(actual, sig) {
+            // Re-intento de play por si el primero falló
+            audio.play();
             document.getElementById(actual).classList.add('hidden');
             document.getElementById(sig).classList.remove('hidden');
         }
+
         function escapar(btn) {
             btn.style.position = 'fixed';
-            btn.style.left = Math.random() * 80 + '%';
-            btn.style.top = Math.random() * 80 + '%';
+            btn.style.left = Math.random() * 70 + 10 + '%';
+            btn.style.top = Math.random() * 70 + 10 + '%';
         }
     </script>
 </body>
