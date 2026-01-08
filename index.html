@@ -6,128 +6,25 @@
     <title>Para mi Reina</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --rojo-oscuro: #8b0000;
-            --blanco-tarjeta: #ffffff;
-            --dorado: #ffd700;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: var(--rojo-oscuro);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-        }
-
-        /* Contenedor principal */
-        .container {
-            position: relative;
-            width: 320px;
-            height: 480px;
-        }
-
-        /* Tarjetas estilo elegante */
-        .card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--blanco-tarjeta);
-            border-radius: 15px;
-            padding: 40px 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            border: 5px solid #f0f0f0;
-        }
-
+        :root { --rojo-fondo: #4a0e0e; --rojo-regalo: #d32f2f; --dorado: #ffd700; }
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--rojo-fondo); font-family: 'Poppins', sans-serif; overflow: hidden; }
+        .container { position: relative; width: 320px; height: 480px; }
+        .card { position: absolute; width: 100%; height: 100%; background: #ffffff; border-radius: 15px; padding: 40px 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: all 0.8s ease; border: 5px solid #f9f9f9; }
         .hidden { transform: translateX(-150%) rotate(-10deg); opacity: 0; pointer-events: none; }
-
-        h1 { font-size: 1.7rem; color: #222; margin-bottom: 15px; font-weight: 600; }
-        p { font-size: 1rem; color: #444; line-height: 1.6; margin: 0; }
+        h1 { font-size: 1.7rem; color: #222; }
         .cursive { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #000; }
-
-        /* Flecha horizontal negra */
-        .arrow-btn {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            font-size: 2.5rem;
-            cursor: pointer;
-            color: #000;
-            transition: 0.3s;
-            user-select: none;
-        }
-        .arrow-btn:hover { transform: translateX(5px); }
-
-        /* Botones SI/NO */
+        .arrow-btn { position: absolute; bottom: 30px; right: 30px; font-size: 2.5rem; cursor: pointer; color: #000; transition: 0.3s; }
+        .arrow-btn:hover { transform: scale(1.2); }
         .btn-group { margin-top: 25px; display: flex; gap: 10px; }
         .btn { padding: 10px 25px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; color: white; }
         .btn-si { background: #28a745; }
-        .btn-no { background: #dc3545; transition: 0.2s; }
-
-        /* --- REGALO 3D MEJORADO --- */
-        .gift-container {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin-top: 30px;
-            cursor: pointer;
-        }
-        .gift-box {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-            background: #d32f2f;
-            border-radius: 5px;
-            z-index: 2;
-        }
-        .gift-box::after { /* Cinta dorada central */
-            content: ""; position: absolute; left: 50%; transform: translateX(-50%);
-            width: 30px; height: 100%; background: var(--dorado);
-        }
-        .gift-lid {
-            position: absolute;
-            top: 15px;
-            width: 110%;
-            left: -5%;
-            height: 35px;
-            background: #d32f2f;
-            z-index: 4;
-            transition: all 0.7s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .gift-lid::after { /* Moño */
-            content: "🎀"; position: absolute; top: -30px; left: 50%;
-            transform: translateX(-50%); font-size: 45px;
-        }
-
-        /* Foto que sale del regalo */
-        .photo-surprise {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            left: 15px;
-            bottom: 20px;
-            z-index: 3;
-            opacity: 0;
-            transform: scale(0.1);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            object-fit: cover;
-        }
-
-        /* Animación de apertura */
+        .btn-no { background: #dc3545; transition: 0.1s; }
+        .gift-container { position: relative; width: 150px; height: 150px; margin-top: 30px; cursor: pointer; }
+        .gift-box { position: absolute; bottom: 0; width: 100%; height: 100px; background: var(--rojo-regalo); border-radius: 5px; z-index: 2; }
+        .gift-box::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); width: 30px; height: 100%; background: var(--dorado); }
+        .gift-lid { position: absolute; top: 15px; width: 110%; left: -5%; height: 35px; background: var(--rojo-regalo); z-index: 4; transition: all 0.7s ease; }
+        .gift-lid::after { content: "🎀"; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 45px; }
+        .photo-surprise { position: absolute; width: 120px; height: 120px; left: 15px; bottom: 20px; z-index: 3; opacity: 0; transform: scale(0.1); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 5px solid white; object-fit: cover; }
         .open .gift-lid { transform: translateY(-110px) rotate(-10deg); opacity: 0; }
         .open .photo-surprise { opacity: 1; transform: scale(1.6) translateY(-60px); }
     </style>
@@ -141,7 +38,7 @@
     <div class="container">
         <div id="p1" class="card">
             <h1>Buenos días, mi reina</h1>
-            <p>Sé que existen infinitas maneras de decir “te amo”, pero ninguna logra abarcar la grandeza de lo que despiertas en mí. Mi amor por ti no se limita a palabras, porque habita en cada latido de mi corazón, en cada pensamiento que me encuentra sin aviso y en cada instante en el que tu nombre florece suavemente en mi alma. Amarte no es solo un sentimiento: es mi forma más pura y sincera de existir💖</p>
+            <p>Sé que existen mil maneras de decir "te amo", pero ninguna alcanza para expresar lo que siento por ti...</p>
             <div class="arrow-btn" onclick="next('p1','p2')">➞</div>
         </div>
 
@@ -158,7 +55,7 @@
             <div class="gift-container" id="regalo" onclick="this.classList.toggle('open')">
                 <div class="gift-lid"></div>
                 <div class="gift-box"></div>
-                <img src="foto.jpeg" class="photo-surprise" alt="Foto">
+                <img src="foto.jpeg" class="photo-surprise">
             </div>
             <p style="font-size: 0.7rem; color: #888; margin-top: 15px;">(Toca el regalo para abrirlo)</p>
         </div>
@@ -168,8 +65,8 @@
         const audio = document.getElementById('musicaFondo');
 
         function next(actual, sig) {
-            // Activa la música al primer clic
-            audio.play().catch(e => console.log("Música lista"));
+            // Activa la música al primer clic (necesario por seguridad del navegador)
+            audio.play().catch(e => console.log("Reproducción iniciada"));
             document.getElementById(actual).classList.add('hidden');
             document.getElementById(sig).classList.remove('hidden');
         }
@@ -184,5 +81,3 @@
     </script>
 </body>
 </html>
-
-
