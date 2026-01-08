@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para mi Reina</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
@@ -12,136 +12,125 @@
             --dorado: #ffd700;
         }
 
+        /* Ajuste para que en móvil no se pueda hacer scroll lateral */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            /* 100dvh es la clave para iPhone y Android moderno */
+            height: 100dvh; 
             background-color: var(--rojo-oscuro);
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
+            touch-action: manipulation;
         }
 
-        /* Contenedor principal */
         .container {
             position: relative;
-            width: 320px;
-            height: 480px;
+            width: 90%;
+            max-width: 340px;
+            height: 80vh;
+            max-height: 550px;
         }
 
-        /* Tarjetas estilo elegante */
         .card {
             position: absolute;
             width: 100%;
             height: 100%;
             background: var(--blanco-tarjeta);
-            border-radius: 15px;
-            padding: 40px 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            border: 5px solid #f0f0f0;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 4px solid #f8f8f8;
         }
 
-        .hidden { transform: translateX(-150%) rotate(-10deg); opacity: 0; pointer-events: none; }
+        .hidden { 
+            transform: scale(0.5) translateY(100%); 
+            opacity: 0; 
+            pointer-events: none; 
+        }
 
-        h1 { font-size: 1.7rem; color: #222; margin-bottom: 15px; font-weight: 600; }
-        p { font-size: 1rem; color: #444; line-height: 1.6; margin: 0; }
-        .cursive { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #000; }
+        h1 { font-size: 1.6rem; color: #222; margin-bottom: 15px; }
+        p { font-size: 0.95rem; color: #444; line-height: 1.6; }
+        .cursive { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #b71c1c; }
 
-        /* Flecha horizontal negra */
+        /* Flecha más visible en móvil */
         .arrow-btn {
             position: absolute;
-            bottom: 30px;
-            right: 30px;
-            font-size: 2.5rem;
+            bottom: 25px;
+            right: 25px;
+            font-size: 2.8rem;
             cursor: pointer;
-            color: #000;
-            transition: 0.3s;
-            user-select: none;
-        }
-        .arrow-btn:hover { transform: translateX(5px); }
-
-        /* Botones SI/NO */
-        .btn-group { margin-top: 25px; display: flex; gap: 10px; }
-        .btn { padding: 10px 25px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; color: white; }
-        .btn-si { background: #28a745; }
-        .btn-no { background: #dc3545; transition: 0.2s; }
-
-        /* --- REGALO 3D MEJORADO --- */
-        .gift-container {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin-top: 30px;
-            cursor: pointer;
-        }
-        .gift-box {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-            background: #d32f2f;
-            border-radius: 5px;
-            z-index: 2;
-        }
-        .gift-box::after { /* Cinta dorada central */
-            content: ""; position: absolute; left: 50%; transform: translateX(-50%);
-            width: 30px; height: 100%; background: var(--dorado);
-        }
-        .gift-lid {
-            position: absolute;
-            top: 15px;
-            width: 110%;
-            left: -5%;
-            height: 35px;
-            background: #d32f2f;
-            z-index: 4;
-            transition: all 0.7s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .gift-lid::after { /* Moño */
-            content: "🎀"; position: absolute; top: -30px; left: 50%;
-            transform: translateX(-50%); font-size: 45px;
+            color: #b71c1c;
+            animation: pulse 2s infinite;
         }
 
-        /* Foto que sale del regalo */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-group { margin-top: 25px; display: flex; gap: 15px; width: 100%; justify-content: center; }
+        .btn { 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .btn-si { background: #2e7d32; }
+        .btn-no { background: #c62828; }
+
+        /* REGALO */
+        .gift-container { position: relative; width: 140px; height: 140px; margin-top: 20px; }
+        .gift-box { position: absolute; bottom: 0; width: 100%; height: 90px; background: #d32f2f; border-radius: 8px; z-index: 2; }
+        .gift-box::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); width: 25px; height: 100%; background: var(--dorado); }
+        .gift-lid { position: absolute; top: 20px; width: 110%; left: -5%; height: 30px; background: #d32f2f; z-index: 4; transition: 0.5s ease; border-radius: 4px; }
+        .gift-lid::after { content: "🎀"; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); font-size: 40px; }
+
         .photo-surprise {
             position: absolute;
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             left: 15px;
             bottom: 20px;
             z-index: 3;
             opacity: 0;
             transform: scale(0.1);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid white;
             object-fit: cover;
+            border-radius: 10px;
         }
 
-        /* Animación de apertura */
-        .open .gift-lid { transform: translateY(-110px) rotate(-10deg); opacity: 0; }
-        .open .photo-surprise { opacity: 1; transform: scale(1.6) translateY(-60px); }
+        .open .gift-lid { transform: translateY(-100px) rotate(15deg); opacity: 0; }
+        .open .photo-surprise { opacity: 1; transform: scale(1.7) translateY(-50px); }
     </style>
 </head>
-<body>
+<body onclick="playOnce()">
 
-    <audio id="musicaFondo" loop>
+    <audio id="musicaFondo" loop preload="auto">
         <source src="foto.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container">
         <div id="p1" class="card">
             <h1>Buenos días, mi reina</h1>
-            <p>Sé que existen mil maneras de decir “te amo”, pero ninguna logra abarcar la inmensidad de lo que siento por ti. Mi amor por ti no cabe en palabras, porque vive en cada latido de mi corazón, en cada pensamiento que me acompaña y en cada instante en que tu nombre aparece sin que lo llame. Amarte no es solo un sentimiento, es mi forma más pura y sincera de existir, de respirar y de sentir que todo tiene sentido contigo. ❤️</p>
+            <p>Sé que existen mil maneras de decir “te amo”, pero ninguna logra abarcar la inmensidad de lo que siento por ti. ❤️</p>
             <div class="arrow-btn" onclick="next('p1','p2')">➞</div>
         </div>
 
@@ -149,7 +138,7 @@
             <p class="cursive">Mi vida, ¿quieres ser mi San Valentín?</p>
             <div class="btn-group">
                 <button class="btn btn-si" onclick="next('p2','p3')">SÍ</button>
-                <button class="btn btn-no" onmouseover="escapar(this)">NO</button>
+                <button id="btnNo" class="btn btn-no" onmouseover="escapar(this)" onclick="escapar(this)">NO</button>
             </div>
         </div>
 
@@ -158,25 +147,32 @@
             <div class="gift-container" id="regalo" onclick="this.classList.toggle('open')">
                 <div class="gift-lid"></div>
                 <div class="gift-box"></div>
-                <img src="foto.jpeg" class="photo-surprise" alt="Foto">
+                <img src="foto.jpeg" class="photo-surprise">
             </div>
-            <p style="font-size: 0.7rem; color: #888; margin-top: 15px;">(Toca el regalo para abrirlo)</p>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 40px;">(Toca el regalo para abrirlo)</p>
         </div>
     </div>
 
     <script>
         const audio = document.getElementById('musicaFondo');
+        let started = false;
+
+        function playOnce() {
+            if(!started) {
+                audio.play().catch(e => console.log("Audio listo"));
+                started = true;
+            }
+        }
 
         function next(actual, sig) {
-            // Activa la música al primer clic
-            audio.play().catch(e => console.log("Música lista"));
+            playOnce();
             document.getElementById(actual).classList.add('hidden');
             document.getElementById(sig).classList.remove('hidden');
         }
 
         function escapar(btn) {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
+            const x = Math.random() * (window.innerWidth - btn.clientWidth);
+            const y = Math.random() * (window.innerHeight - btn.clientHeight);
             btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
