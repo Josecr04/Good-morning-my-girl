@@ -6,11 +6,28 @@
     <title>Para mi Reina</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --rojo: #8b0000; --blanco: #ffffff; --dorado: #ffd700; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100dvh; background-color: var(--rojo); font-family: 'Poppins', sans-serif; overflow: hidden; }
+        :root { 
+            --rojo: #8b0000; 
+            --blanco: #ffffff; 
+            --dorado: #ffd700; 
+        }
 
-        /* Pantalla de inicio necesaria para iPhone/Android */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body { 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100dvh; 
+            background-color: var(--rojo); 
+            font-family: 'Poppins', sans-serif; 
+            overflow: hidden; 
+            touch-action: manipulation;
+        }
+
+        /* Pantalla de inicio para desbloquear música en iPhone/Android */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--rojo); z-index: 100; display: flex;
@@ -24,22 +41,77 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        .container { position: relative; width: 90%; max-width: 340px; height: 80vh; display: none; }
-        .card { position: absolute; width: 100%; height: 100%; background: var(--blanco); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: 0.6s; border: 4px solid #f8f8f8; }
+        .container { 
+            position: relative; 
+            width: 90%; 
+            max-width: 340px; 
+            height: 80vh; 
+            display: none; 
+        }
+
+        .card { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            background: var(--blanco); 
+            border-radius: 20px; 
+            padding: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
+            border: 4px solid #f8f8f8; 
+        }
+
         .hidden { transform: scale(0.5) translateY(120%); opacity: 0; pointer-events: none; }
         
-        .arrow-btn { position: absolute; bottom: 20px; right: 20px; font-size: 3rem; cursor: pointer; color: #b71c1c; }
-        .btn-group { margin-top: 20px; display: flex; gap: 15px; }
-        .btn { padding: 12px 25px; border: none; border-radius: 50px; color: white; font-weight: bold; }
+        h1 { font-size: 1.6rem; color: #222; margin-bottom: 15px; }
+        p { font-size: 0.95rem; color: #444; line-height: 1.6; }
+        .cursive { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #b71c1c; }
+
+        .arrow-btn { 
+            position: absolute; bottom: 20px; right: 20px; font-size: 3rem; 
+            cursor: pointer; color: #b71c1c; animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-group { margin-top: 25px; display: flex; gap: 15px; width: 100%; justify-content: center; }
+        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1rem; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .btn-si { background: #2e7d32; }
         .btn-no { background: #c62828; }
 
-        .gift-container { position: relative; width: 140px; height: 140px; margin-top: 20px; }
+        /* REGALO CON MOÑO Y CINTA */
+        .gift-container { position: relative; width: 140px; height: 140px; margin-top: 20px; cursor: pointer; }
         .gift-box { position: absolute; bottom: 0; width: 100%; height: 90px; background: #d32f2f; border-radius: 8px; z-index: 2; }
-        .gift-lid { position: absolute; top: 20px; width: 110%; left: -5%; height: 30px; background: #d32f2f; z-index: 4; transition: 0.5s; }
-        .photo-surprise { position: absolute; width: 110px; height: 110px; left: 15px; bottom: 20px; z-index: 3; opacity: 0; transform: scale(0.1); transition: 0.8s; border: 4px solid white; object-fit: cover; }
+        .gift-box::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); width: 25px; height: 100%; background: var(--dorado); }
+        .gift-lid { position: absolute; top: 20px; width: 110%; left: -5%; height: 30px; background: #d32f2f; z-index: 4; transition: 0.5s ease; border-radius: 4px; }
+        .gift-lid::after { content: "🎀"; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); font-size: 40px; }
+
+        .photo-surprise {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            left: 15px;
+            bottom: 20px;
+            z-index: 3;
+            opacity: 0;
+            transform: scale(0.1);
+            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid white;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
         .open .gift-lid { transform: translateY(-100px) rotate(15deg); opacity: 0; }
-        .open .photo-surprise { opacity: 1; transform: scale(1.8) translateY(-50px); }
+        .open .photo-surprise { opacity: 1; transform: scale(1.7) translateY(-50px); }
     </style>
 </head>
 <body>
@@ -56,12 +128,12 @@
     <div class="container" id="mainContainer">
         <div id="p1" class="card">
             <h1>Para mi reina</h1>
-            <p>Sé que existen mil maneras de decir “te amo”, pero ninguna logra abarcar lo que siento por ti. ❤️</p>
+            <p>Sé que existen mil maneras de decir “te amo”, pero ninguna logra abarcar la inmensidad de lo que siento por ti. Mi amor por ti no cabe en palabras, porque vive en cada latido de mi corazón, en cada pensamiento que me acompaña y en cada instante en que tu nombre aparece sin que lo llame. Amarte no es solo un sentimiento, es mi forma más pura y sincera de existir, de respirar y de sentir que todo tiene sentido contigo. ❤️</p>
             <div class="arrow-btn" onclick="next('p1','p2')">➞</div>
         </div>
 
         <div id="p2" class="card hidden">
-            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem;">¿Quieres ser mi San Valentín?</p>
+            <p class="cursive">¿Quieres ser mi San Valentín?</p>
             <div class="btn-group">
                 <button class="btn btn-si" onclick="next('p2','p3')">SÍ</button>
                 <button id="btnNo" class="btn btn-no" onmouseover="escapar(this)" onclick="escapar(this)">NO</button>
@@ -82,28 +154,27 @@
         const audio = document.getElementById('musicaFondo');
 
         function activarTodo() {
-            // Intento forzado de reproducción
-            audio.play().then(() => {
-                console.log("Reproduciendo...");
-            }).catch(err => {
-                console.log("El audio falló pero lo intentaremos de nuevo al navegar");
-            });
-
+            // Desbloquea el audio
+            audio.play().catch(err => console.log("Audio listo"));
+            
+            // Oculta el inicio y muestra el contenido
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('mainContainer').style.display = 'block';
         }
 
         function next(actual, sig) {
-            // Re-intento de play por si el primero falló
+            // Asegura que la música siga sonando
             audio.play();
             document.getElementById(actual).classList.add('hidden');
             document.getElementById(sig).classList.remove('hidden');
         }
 
         function escapar(btn) {
+            const x = Math.random() * (window.innerWidth - btn.clientWidth);
+            const y = Math.random() * (window.innerHeight - btn.clientHeight);
             btn.style.position = 'fixed';
-            btn.style.left = Math.random() * 70 + 10 + '%';
-            btn.style.top = Math.random() * 70 + 10 + '%';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
         }
     </script>
 </body>
